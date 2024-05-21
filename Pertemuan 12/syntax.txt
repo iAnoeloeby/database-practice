@@ -9,17 +9,29 @@ CREATE TABLE DataPenduduk (
     Agama VARCHAR(50) NOT NULL,
     JenisPekerjaan VARCHAR(100),
     Alamat TEXT,
-    Kelurahan VARCHAR(100));
+    KelurahanID INT,
+    KecamatanID INT,
+    KabupatenID INT);
+    
+#Foreign Key dalam Data Penduduk
+ALTER TABLE DataPenduduk
+ADD CONSTRAINT fk_kelurahan
+FOREIGN KEY (KelurahanID) REFERENCES Kelurahan(KelurahanID),
+ADD CONSTRAINT fk_kecamatan
+FOREIGN KEY (KecamatanID) REFERENCES Kecamatan(KecamatanID),
+ADD CONSTRAINT fk_kabupaten
+FOREIGN KEY (KabupatenID) REFERENCES Kabupaten(KabupatenID);
+
 
 #Input Data Penduduk
-INSERT INTO DataPenduduk (NamaLengkap, NIK, JenisKelamin, TempatLahir, TanggalLahir, Agama, JenisPekerjaan, Alamat, Kelurahan, Kecamatan, Kabupaten)
-VALUES ('Ahmad Ridwan', '3204120101980001', 'Laki-laki', 'Jakarta', '1980-01-01', 'Islam', 'Wiraswasta', 'Jl. Menteng Dalam No. 10', 'Menteng', 'Jakarta Pusat', 'Jakarta'),
-VALUES ('Siti Rahayu', '3502034503980002', 'Perempuan', 'Surabaya', '1998-03-25', 'Islam', 'PNS', 'Perumahan Cendana Blok C2 No. 15', 'Cendana', 'Sukolilo', 'Surabaya'),
-VALUES ('Budi Santoso', '1106011405990003', 'Laki-laki', 'Bandung', '1999-05-14', 'Islam', 'Pelajar/Mahasiswa', 'Jl. Merdeka No. 45', 'Merdeka', 'Sumur Bandung', 'Bandung'),
-VALUES ('Dewi Kusuma', '1308075408980004', 'Perempuan', 'Yogyakarta', '1998-08-24', 'Hindu', 'Pegawai Swasta', 'Perumahan Melati Indah Blok F1 No. 7', 'Melati Indah', 'Sewon', 'Bantul'),
-VALUES ('Irfan Nugroho', '1809092101960005', 'Laki-laki', 'Semarang', '1996-01-21', 'Katolik', 'Dokter', 'Jl. Diponegoro No. 30', 'Diponegoro', 'Semarang Utara', 'Semarang'),
-VALUES ('Ratna Dewi', '1605065602970006', 'Perempuan', 'Bandung', '1997-02-25', 'Buddha', 'Pelajar/Mahasiswa', 'Jl. Cihampelas No. 50', 'Cihampelas', 'Coblong', 'Bandung'),
-VALUES ('Hendro Wijaya', '1709124504940007', 'Laki-laki', 'Surabaya', '1994-04-25', 'Islam', 'PNS', 'Jl. Diponegoro No. 100', 'Diponegoro', 'Sukomanunggal', 'Surabaya')
+INSERT INTO DataPenduduk (NamaLengkap, NIK, JenisKelamin, TempatLahir, TanggalLahir, Agama, JenisPekerjaan, Alamat, KelurahanID, KecamatanID, KabupatenID)
+VALUES ('Ahmad Ridwan', '3204120101980001', 'Laki-laki', 'Jakarta', '1980-01-01', 'Islam', 'Wiraswasta', 'Jl. Menteng Dalam No. 10', 1, 1, 1),
+VALUES ('Siti Rahayu', '3502034503980002', 'Perempuan', 'Surabaya', '1998-03-25', 'Islam', 'PNS', 'Perumahan Apsari Blok C2 No. 15', 10, 11, 3),
+VALUES ('Budi Santoso', '1106011405990003', 'Laki-laki', 'Bandung', '1999-05-14', 'Islam', 'Pelajar/Mahasiswa', 'Jl. Merdeka No. 45', 7, 9, 2),
+VALUES ('Dewi Kusuma', '1308075408980004', 'Perempuan', 'Yogyakarta', '1998-08-24', 'Hindu', 'Pegawai Swasta', 'Jl. I Dewa Nyoman Oka Blok F1 No.9', 7, 16, 4),
+VALUES ('Irfan Nugroho', '1809092101960005', 'Laki-laki', 'Semarang', '1996-01-21', 'Katolik', 'Dokter', 'Jl. Diponegoro No. 30', 5, 20, 5),
+VALUES ('Ratna Dewi', '1605065602970006', 'Perempuan', 'Bandung', '1997-02-25', 'Buddha', 'Pelajar/Mahasiswa', 'Jl. Cihampelas No. 50', 2, 10, 2),
+VALUES ('Hendro Wijaya', '1709124504940007', 'Laki-laki', 'Surabaya', '1994-04-25', 'Islam', 'PNS', 'Jl. Jatisrono Timur No. 100', 6, 13, 3)
 ;
 
 #Membuat Tabel Kabupaten
@@ -32,7 +44,7 @@ INSERT INTO Kabupaten (NamaKabupaten)
 VALUE ('Jakarta'),
 VALUES ('Bandung'),
 VALUES ('Surabaya'),
-VALUES ('Bantul'),
+VALUES ('Yogyakarta'),
 VALUES ('Semarang')
 ;
 
@@ -45,13 +57,26 @@ CREATE TABLE Kecamatan (
 
 #input
 INSERT INTO Kecamatan (NamaKecamatan, KabupatenID)
-VALUES ('Jakarta Pusat', 1)
-VALUES ('Coblong', 1),
-VALUES ('Kedurus', 2),
-VALUES ('Sukomanunggal', ),
-VALUES ('Bantul', 4),
-VALUES ('Gedong Tengen', 3),
-VALUES ('Semarang Tengah', 5)
+VALUES ('Jakarta Pusat', 1),
+VALUES ('Jakarta Utara', 1),
+VALUES ('Jakarta Timur', 1),
+VALUES ('Jakarta Selatan', 1),
+VALUES ('Jakarta Barat', 1),
+VALUES ('Babakan Ciparay', 2),
+VALUES ('Sumur Bandung', 2),
+VALUES ('Kiaracondong', 2),
+VALUES ('Coblong', 2),
+VALUES ('Genteng', 3),
+VALUES ('Sukomanunggal', 3),
+VALUES ('Bulak', 3),
+VALUES ('Semampir', 3),
+VALUES ('Gedongtengen', 4),
+VALUES ('Gondomanan', 4),
+VALUES ('Gondokusuman', 4),
+VALUES ('Pakualaman', 4),
+VALUES ('Gajahmungkur', 5),
+VALUES ('Tembalang', 5),
+VALUES ('Semarang Utara', 5)
 ;
 
 
@@ -64,11 +89,11 @@ CREATE TABLE Kelurahan (
 
 #input
 INSERT INTO Kelurahan (NamaKelurahan, KecamatanID)
-VALUES ('Menteng', 'Jakarta', 1)
-VALUES ('Cihampelas', (SELECT KecamatanID FROM Kecamatan WHERE NamaKecamatan = 'Coblong')),
-VALUES ('Harapan Indah', (SELECT KecamatanID FROM Kecamatan WHERE NamaKecamatan = 'Kedurus')),
-VALUES ('Diponegoro', ),
-VALUES ('Sukomanunggal', ),
-VALUES ('Pemuda', (SELECT KecamatanID FROM Kecamatan WHERE NamaKecamatan = 'Gedong Tengen')),
-VALUES ('Gajah Mada', (SELECT KecamatanID FROM Kecamatan WHERE NamaKecamatan = 'Semarang Tengah'))
+VALUES ('Menteng', 1)
+VALUES ('Cihampelas', 9),
+VALUES ('Embong Kaliasin', 10),
+VALUES ('Diponegoro', 20),
+VALUES ('Ujung', 13),
+VALUES ('Merdeka', 7),
+VALUES ('Kotabaru', 16)
 ;
