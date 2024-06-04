@@ -1,0 +1,25 @@
+# [01] data barang tsb kelompok apa, dari supplier apa
+SELECT a.kode_brg, a.nama_brg, b.nama_kat AS kategori, c.nama_sup AS supplier
+FROM barang a
+JOIN kategori b ON a.kategori = b.kode_kat
+JOIN supplier c ON a.kode_sup = c.kode_sup
+
+# [02] apabila dijual, masing- masing barang memiliki laba berapa?
+SELECT kode_brg, nama_brg, (hrg_jual-hrg_dasar)*jml_brg AS laba
+FROM barang
+
+# [03] Tampilkan jumlah barang dari masing-masing supplier
+SELECT a.nama_sup AS Supplier, COUNT(b.kode_sup) AS Kat_Produk, SUM(b.jml_brg) AS Jumlah_Barang
+FROM supplier a, barang b
+WHERE b.kode_sup = a.kode_sup
+GROUP BY a.kode_sup
+
+# [04] Tampilkan jumlah barang dari masing- masing kelompok
+SELECT a.nama_kat AS Kategori, COUNT(b.kategori) AS Kat_Produk, SUM(b.jml_brg) AS Jumlah_Barang
+FROM kategori a, barang b
+WHERE b.kategori = a.kode_kat
+GROUP BY a.kode_kat
+
+# [05] Berapa nilai harga jual masing- masing barang 
+SELECT kode_brg, nama_brg, (hrg_jual-hrg_dasar) AS Nilai_Jual_Barang
+FROM barang
