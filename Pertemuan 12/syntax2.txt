@@ -1,0 +1,99 @@
+`responsi`#Membuat tabel Data Penduduk
+CREATE TABLE DataPenduduk (
+    NO INT AUTO_INCREMENT PRIMARY KEY,
+    NamaLengkap VARCHAR(255) NOT NULL,
+    NIK CHAR(16) NOT NULL UNIQUE,
+    JenisKelamin ENUM('Laki-laki', 'Perempuan') NOT NULL,
+    TempatLahir VARCHAR(100) NOT NULL,
+    TanggalLahir DATE NOT NULL,
+    Agama VARCHAR(50) NOT NULL,
+    JenisPekerjaan VARCHAR(100),
+    Alamat TEXT,
+    KelurahanID INT,
+    KecamatanID INT,
+    KabupatenID INT);
+    
+#Foreign Key dalam Data Penduduk
+ALTER TABLE DataPenduduk
+ADD CONSTRAINT fk_kelurahan
+FOREIGN KEY (KelurahanID) REFERENCES Kelurahan(KelurahanID),
+ADD CONSTRAINT fk_kecamatan
+FOREIGN KEY (KecamatanID) REFERENCES Kecamatan(KecamatanID),
+ADD CONSTRAINT fk_kabupaten
+FOREIGN KEY (KabupatenID) REFERENCES Kabupaten(KabupatenID);
+
+
+#Input Data Penduduk
+INSERT INTO DataPenduduk (NamaLengkap, NIK, JenisKelamin, TempatLahir, TanggalLahir, Agama, JenisPekerjaan, Alamat, KelurahanID, KecamatanID, KabupatenID)
+VALUES ('Ahmad Ridwan', '3204120101980001', 'Laki-laki', 'Jakarta', '1980-01-01', 'Islam', 'Wiraswasta', 'Jl. Menteng Dalam No. 10', 1, 1, 1),
+VALUES ('Siti Rahayu', '3502034503980002', 'Perempuan', 'Surabaya', '1998-03-25', 'Islam', 'PNS', 'Perumahan Apsari Blok C2 No. 15', 10, 11, 3),
+VALUES ('Budi Santoso', '1106011405990003', 'Laki-laki', 'Bandung', '1999-05-14', 'Islam', 'Pelajar/Mahasiswa', 'Jl. Merdeka No. 45', 7, 9, 2),
+VALUES ('Dewi Kusuma', '1308075408980004', 'Perempuan', 'Yogyakarta', '1998-08-24', 'Hindu', 'Pegawai Swasta', 'Jl. I Dewa Nyoman Oka Blok F1 No.9', 7, 16, 4),
+VALUES ('Irfan Nugroho', '1809092101960005', 'Laki-laki', 'Semarang', '1996-01-21', 'Katolik', 'Dokter', 'Jl. Diponegoro No. 30', 5, 20, 5),
+VALUES ('Ratna Dewi', '1605065602970006', 'Perempuan', 'Bandung', '1997-02-25', 'Buddha', 'Pelajar/Mahasiswa', 'Jl. Cihampelas No. 50', 2, 10, 2),
+VALUES ('Hendro Wijaya', '1709124504940007', 'Laki-laki', 'Surabaya', '1994-04-25', 'Islam', 'PNS', 'Jl. Jatisrono Timur No. 100', 6, 13, 3)
+;
+
+#Membuat Tabel Kabupaten
+CREATE TABLE Kabupaten (
+    KabupatenID INT AUTO_INCREMENT PRIMARY KEY,
+    NamaKabupaten VARCHAR(100) NOT NULL);
+
+#input
+INSERT INTO Kabupaten (NamaKabupaten)
+VALUE ('Jakarta'),
+VALUES ('Bandung'),
+VALUES ('Surabaya'),
+VALUES ('Yogyakarta'),
+VALUES ('Semarang')
+;
+
+#Membuat Tabel Kecamatan
+CREATE TABLE Kecamatan (
+    KecamatanID INT AUTO_INCREMENT PRIMARY KEY,
+    NamaKecamatan VARCHAR(100) NOT NULL,
+    KabupatenID INT,
+    FOREIGN KEY (KabupatenID) REFERENCES Kabupaten(KabupatenID));
+
+#input
+INSERT INTO Kecamatan (NamaKecamatan, KabupatenID)
+VALUES ('Jakarta Pusat', 1),
+VALUES ('Jakarta Utara', 1),
+VALUES ('Jakarta Timur', 1),
+VALUES ('Jakarta Selatan', 1),
+VALUES ('Jakarta Barat', 1),
+VALUES ('Babakan Ciparay', 2),
+VALUES ('Sumur Bandung', 2),
+VALUES ('Kiaracondong', 2),
+VALUES ('Coblong', 2),
+VALUES ('Genteng', 3),
+VALUES ('Sukomanunggal', 3),
+VALUES ('Bulak', 3),
+VALUES ('Semampir', 3),
+VALUES ('Gedongtengen', 4),
+VALUES ('Gondomanan', 4),
+VALUES ('Gondokusuman', 4),
+VALUES ('Pakualaman', 4),
+VALUES ('Gajahmungkur', 5),
+VALUES ('Tembalang', 5),
+VALUES ('Semarang Utara', 5)
+;
+
+
+#Membuat Tabel Kelurahan
+CREATE TABLE Kelurahan (
+    KelurahanID INT AUTO_INCREMENT PRIMARY KEY,
+    NamaKelurahan VARCHAR(100) NOT NULL,
+    KecamatanID INT,
+    FOREIGN KEY (KecamatanID) REFERENCES Kecamatan(KecamatanID));
+
+#input
+INSERT INTO Kelurahan (NamaKelurahan, KecamatanID)
+VALUES ('Menteng', 1)
+VALUES ('Cihampelas', 9),
+VALUES ('Embong Kaliasin', 10),
+VALUES ('Diponegoro', 20),
+VALUES ('Ujung', 13),
+VALUES ('Merdeka', 7),
+VALUES ('Kotabaru', 16)
+;
